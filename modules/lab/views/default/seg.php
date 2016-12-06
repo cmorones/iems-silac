@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use app\modules\docente\models\ConsumoMateriales;
 
 
 ?>
@@ -17,13 +18,12 @@ use yii\widgets\ActiveForm;
 </script>
 <div class="box box-primary">
 	<div class="box-header with-border">
-	  <h3 class="box-title"><i class="fa fa-graduation-cap"></i>Solicitud de materiales para esta sesión</h3>
+	  <h3 class="box-title"><i class="fa fa-graduation-cap"></i>Listado de materiales para esta Sesión</h3>
 	</div><!-- /.box-header -->
     
     <p>
-       <?php echo Html::a('<i class="fa fa-arrow-circle-left"></i> ' .Yii::t('app', "Atras"), ['/docente/sesiones'],['class'=>'btn btn-back', 'style'=>'color:#fff']);?>
+       <?php echo Html::a('<i class="fa fa-arrow-circle-left"></i> ' .Yii::t('app', "Atras"), ['/lab'],['class'=>'btn btn-back', 'style'=>'color:#fff']);?>
     
-        <?= Html::button('Agregar Entrada', ['value'=>Url::to('index.php?r=docente/consumo-materiales/create&id='.$id),'class' => 'btn btn-success','id'=>'modalButton']) ?>
     </p>
 
 
@@ -34,8 +34,8 @@ $query = "SELECT
   cat_matyreact.clave, 
   consumo_lab.id, 
   consumo_lab.id_material, 
-  consumo_lab.cantidad,
-  consumo_lab.estado, 
+  consumo_lab.cantidad, 
+  consumo_lab.estado,
   cat_tipo.nombre as tipo, 
   consumo_lab.id_materia
 FROM 
@@ -48,7 +48,10 @@ WHERE
   consumo_lab.id_sesion = $id";
 $materiales = \Yii::$app->db ->createCommand($query)->queryAll();
 
+
 $i=1;
+
+$reg =ConsumoMateriales::find()->where(['id_sesion'=>$id])->count();
 ?>
 <div class="row-fluid">
      <div class="span12">
@@ -64,21 +67,21 @@ $i=1;
                                     <th>Cantidad</th>
                                     <th>Existencias</th>
                                     <th>Estado</th>
-                                    <th>Eliminar</th>
+                                    <th>Autorizar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php 
-
+                                 if ($reg>0) {
                                 foreach ($materiales as $product):
+
 
                                     if ($product['estado']==1) {
                                       $estado ="<span class=\"badge bg-red\">En proceso</span>";
                                     }elseif ($product['estado']==2) {
-                                      $estado ="<span class=\"badge bg-red\">Autorizado</span>";
+                                      $estado ="<span class=\"badge bg-green\">Autorizado</span>";
                                     }
-
-                                  ?>
+                                 ?>
                                     <tr>
                                         <td><?=$i?></td>
                                         <td><?=$product['tipo']?></td>
@@ -86,16 +89,45 @@ $i=1;
                                         <td><?=$product['nombre']?></td>
                                       
                                         <td>
-                                        <input type="text" size="6" name="qty[<?=$product['id']?>]" value=<?=$product['cantidad']?>>
+                                          <?php
+                                        if ($product['estado']==1) {
+                                        	?>
+                                        	 <input type="text" size="6" name="qty[<?=$product['id']?>]" value=<?=$product['cantidad']?>>
                                         
+                                        <?php
+                                    	}else {
+                                    		echo $product['cantidad'];
+                                    	}
+                                    	?>
+                                       
                                         </td>
                                         <td>Existencias</td>
                                         <td><?//=$estado?></td>
-                                        <td><input type="checkbox" name="remove[]" value="<?=$product['id']?>"></td>
+                                        <td>
+                                        <?php
+                                        if ($product['estado']==1) {
+                                        	?>
+                                        	  <input type="checkbox" name="validar[]" value="<?=$product['id']?>">
+
+                                        <?php
+                                    	}else{
+
+                                      ?>
+                                      <input type="checkbox" name="cerrado" disabled>
+                                      <?php
+                                      }
+
+                                      ?>
+                                        </td>
                                     </tr>
                                 <?php 
                                 $i++;
-                                endforeach; ?>		  
+                                endforeach;
+                                }else { ?>		  
+                                   <tr><td colspan="8" >No existe información para mostrar</td></tr>   
+                                   <?php
+                                 }
+                                 ?>
                             </tbody>
                            
                         </table>
@@ -104,9 +136,18 @@ $i=1;
 
 						<div class="col-xs-1 right-padding">
 						   <div class="form-group">
-        <?= Html::submitButton('Actualizar cantidades', ['class' => 'btn btn-primary', 'name'=>'update']) ?>
-    </div>
-						</div>	
+
+						    <?php
+                if ($reg>0) {
+                                        if ($product['estado']==1) {
+                                        	?>
+									        <?= Html::submitButton('Actualizar cantidades', ['class' => 'btn btn-primary', 'name'=>'update']) ?>
+									       <?php
+                                    	}
+                                    }
+                                    	?>
+									    </div>
+															</div>	
 
                   <?php ActiveForm::end(); ?>       
 

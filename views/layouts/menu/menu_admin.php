@@ -81,16 +81,16 @@ use yii\helpers\Html;
 	<?php }
 	else{ 
 	     ?>
-	    <li><?= Html::a('<i class="fa fa-cogs"></i> <span>'.Yii::t('app', 'Configuration').'</span>', ['/default/index']); ?></li>
+	   <li><?= Html::a('<i class="fa fa-cogs"></i> <span>'.Yii::t('app', 'Configuración').'</span>', ['/default/index']); ?></li>
 	   
-	    <li><?= Html::a('<i class="fa fa-th"></i> <span>'.Yii::t('app', 'Administracion').'</span>', ['/admin/default/index']); ?></li>
-	    <li><?= Html::a('<i class="fa fa-edit"></i> <span>'.Yii::t('app', 'Solicitud Docente').'</span>', ['/dashboard/default/index']); ?></li>
-	    
-	    <li><?= Html::a('<i class="fa fa-th"></i> <span>'.Yii::t('app', 'Inventario').'</span>', ['/inventario/default/index']); ?></li>
-	    <li><?= Html::a('<i class="fa fa-pie-chart"></i> <span>'.Yii::t('app', 'Informes').'</span>', ['/informes/default/index']); ?></li>
-	    <li><?= Html::a('<i class="fa fa-book"></i> <span>'.Yii::t('app', 'Documentacion').'</span>', ['/admin/default/index']); ?></li>
-	    <li><?= Html::a('<i class="fa fa-user-secret text-orange"></i> <span>'.Yii::t('app', 'Role Based Access Control').'</span>', ['/rights']);?>
-            </li>
+ 
+         <li><?= Html::a('<i class="fa  fa-edit"></i> <span>Informe de Inventarios</span>', ['/admin/default/inventario/']);?></li>
+        <li><?= Html::a('<i class="fa  fa-edit"></i> <span>Informe de Consumos</span>', ['/admin/default/instalaciones']);?></li>
+        <li><?= Html::a('<i class="fa  fa-edit"></i> <span>Informe de uso de instalaciones </span>', ['/admin/default/consumos']);?></li>
+        <li><?= Html::a('<i class="fa  fa-edit"></i> <span>Informe de Deseños Quimicos</span>', ['/admin/default/desechos']);?></li>
+        <li><?= Html::a('<i class="fa  fa-edit"></i> <span>Informe de Material Dañado</span>', ['/admin/default/material']);?></li>
+
+         <li><?= Html::a('<i class="fa  fa-edit"></i> <span>Graficos</span>', ['/admin/default/graficas']);?></li>
 	   
 		<?php } ?>
         </ul>

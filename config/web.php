@@ -75,6 +75,9 @@ $config = [
         // 'downloadAction' => 'gridview/export/download',
         // 'i18n' => []
         ],
+        'lab' => [
+            'class' => 'app\modules\lab\labModule',
+        ],
         'admin' => [
             'class' => 'app\modules\admin\AdminModule',
         ],
@@ -93,12 +96,12 @@ $config = [
         'rights' => [
         'class' => 'mdm\admin\Module',
         'controllerMap' => [
-                 'assignment' => [
+                    'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
                     'userClassName' => 'app\models\User',
                     'idField' => 'user_id', // id field of model User
-            'usernameField' => 'user_login_id', // username field of model User
-                ],
+                    'usernameField' => 'user_login_id', // username field of model User
+                   ],
             ],
         ],
     ],
@@ -114,6 +117,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        //'allowedIPs' => ['132.248.152.124']
     ];
 }
 

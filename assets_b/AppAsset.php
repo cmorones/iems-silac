@@ -32,6 +32,7 @@ class AppAsset extends AssetBundle
         'js/bootstrap-multiselect.js',
         'js/custom-delete-confirm.js',
         'js/bootbox.js',
+        'js/plugins/morris/morris.min.js',
         'js/bootstrap.file-input.js',
         'js/bootstrapx-clickover.js',
         'js/main.js',
@@ -42,6 +43,6 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
-    'yii\bootstrap\BootstrapPluginAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

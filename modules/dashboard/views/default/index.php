@@ -8,7 +8,7 @@ $this->registerCss(".popover{max-width:500px}");
 
 <div class="box box-default">
   <div class="box-header with-border">
-    <h3 class="box-title"><i class="glyphicon glyphicon-appboard"></i> HOLA</h3>
+    <h3 class="box-title"><i class="glyphicon glyphicon-appboard"></i>LISTADO DE SESIONES DEL PLANTEL</h3>
   </div>
   <div class="box-body">
 
@@ -32,7 +32,7 @@ $this->registerCss(".popover{max-width:500px}");
 <!---Start event management block--->
 <div class="box box-info box-solid">
   <div class="box-header with-border">
-    <h3 class="box-title"><i class="ion ion-calendar"></i> HOLA2</h3>
+    <h3 class="box-title"><i class="ion ion-calendar"></i>LISTADO DE SESSIONES DEL PLANTEL</h3>
   </div>
   <div class="box-body">
 <?php 
@@ -101,14 +101,14 @@ EOF;
   <div class="row">
      <div class="col-sm-12 col-xs-12">
          <?= \yii2fullcalendar\yii2fullcalendar::widget([
-      'options' => ['language' => 'en'],
+      'options' => ['language' => 'es'],
       'clientOptions' => [
         'fixedWeekCount' => false,
         'weekNumbers'=>true,
         'editable' => true,
         'selectable' => true,
         'eventLimit' => true,
-        'eventLimitText' => 'more Events',
+        'eventLimitText' => 'mas sesiones',
         'selectHelper' => true,
         'header' => [
           'left' => 'today prev,next',

@@ -59,6 +59,7 @@ if (Yii::$app->controller->action->id === 'login') {
 
     <?php $this->endBody() ?>
     </body>
+    
     </html>
     <?php $this->endPage() ?>
 <?php } ?>

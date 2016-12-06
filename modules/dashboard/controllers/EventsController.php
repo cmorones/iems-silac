@@ -103,11 +103,17 @@ class EventsController extends Controller
 			Yii::$app->session->setFlash('maxEvent', "<b><i class='fa fa-warning'></i> Maximum Events Limit Reached, you can not add more event for this day</b>");
 			return $this->redirect(['index']);
 		}*/
+      
+
 		$model->attributes = $_POST['Events'];
 		$model->event_start_date = Yii::$app->dateformatter->storeDateTimeFormat($_POST['Events']['event_start_date']);
 		$model->event_end_date = Yii::$app->dateformatter->storeDateTimeFormat($_POST['Events']['event_end_date']);
         $model->event_all_day = 0;
         $model->is_status=0;
+        $model->id_plantel = Yii::$app->user->identity->id_plantel;
+        $model->id_profesor = Yii::$app->user->identity->user_id;
+        $model->estado=0;
+        $model->id_periodo=1;
 		$model->created_by = 1; //Yii::$app->getid->getId();
 		$model->created_at = new \yii\db\Expression('NOW()');
 
@@ -129,23 +135,36 @@ class EventsController extends Controller
 
     public function actionViewEvents($start=NULL,$end=NULL,$_=NULL) {
 
+
+
 	    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-	    $eventList = Events::find()->where(['is_status'=> 0])->all();
+        $plantel = Yii::$app->user->identity->id_plantel;
+
+	    $eventList = Events::find()->where(['is_status'=> 0])->andwhere(['id_plantel'=>$plantel])->all();
 
 	    $events = [];
 
 	    foreach ($eventList as $event) {
+
+          $id_profesor = Yii::$app->user->identity->id_profesor;
+          
+          if($id_profesor == $event->id_profesor){
+            $color = '#00A65A';
+          }  else{
+            $color = '#00C0EF';
+          }
 	      $Event = new \yii2fullcalendar\models\Event();
 	      $Event->id = $event->event_id;
-	      $Event->title = $event->event_title;
+	      $Event->title = $event->event_title.':'.$event->id_grupo.':'.$event->event_url;
 	      $Event->description = $event->event_detail;
+         // $Event->url = $event->event_url;
 	      $Event->start = $event->event_start_date;
 	      $Event->end = $event->event_end_date;
-	      $Event->color = (($event->event_type == 1) ? '#00A65A' : (($event->event_type == 2) ? '#00C0EF' : (($event->event_type == 3) ? '#F39C12' : '#074979')));
+	      $Event->color = $color; //(($event->event_type == 1) ? '#00A65A' : (($event->event_type == 2) ? '#00C0EF' : (($event->event_type == 3) ? '#F39C12' : '#074979')));
 	      $Event->textColor = '#FFF';
 	      $Event->borderColor = '#000';
-	      $Event->event_type = (($event->event_type == 1) ? 'Holiday' : (($event->event_type == 2) ? 'Important Notice' : (($event->event_type == 3) ? 'Meeting' : 'Messages')));
+	      $Event->event_type = (($event->event_type == 1) ? 'Ordinario' : (($event->event_type == 2) ? 'Extraordinario' : (($event->event_type == 3) ? 'Meeting' : 'Messages')));
 	      $Event->allDay = ($event->event_all_day == 1) ? true : false;
 	     // $Event->url = $event->event_url;
 	      $events[] = $Event;
@@ -167,7 +186,7 @@ class EventsController extends Controller
 		$model->attributes = $_POST['Events'];
 		$model->event_start_date = Yii::$app->dateformatter->storeDateTimeFormat($_POST['Events']['event_start_date']);
 		$model->event_end_date = Yii::$app->dateformatter->storeDateTimeFormat($_POST['Events']['event_end_date']);
-		$model->updated_by = Yii::$app->getid->getId();
+		$model->updated_by = Yii::$app->user->identity->user_id;
 		$model->updated_at = new \yii\db\Expression('NOW()');
 
 		if($model->save()) {

@@ -1,106 +1,95 @@
+  <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <h1>Resumen Sistema SILAC</h1>
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>150</h3>
 
+              <p>Sessiones Activas</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">Ver Detalle<i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>400<sup style="font-size: 20px"></sup></h3>
 
+              <p>Sesiones Realizadas</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">Ver detalle <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>44</h3>
 
-<!-- Main content -->
+              <p>Sesiones Pendientes</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">Ver detalle <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>65</h3>
 
-    <div class="row">
+              <p>Sesiones Canceladas</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">Ver deattalle<i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+      <!-- Main row -->
+      <div class="row">
         <!-- Left col -->
         <section class="col-lg-7 connectedSortable">
-            
-            <section class="content">
+          <!-- Custom tabs (Charts with tabs)-->
+          <div class="nav-tabs-custom">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs pull-right">
+              <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
+              <li><a href="#sales-chart" data-toggle="tab">IEMS</a></li>
+              <li class="pull-left header"><i class="fa fa-inbox"></i> Informes</li>
+            </ul>
+            <div class="tab-content no-padding">
+              <!-- Morris chart - Sales -->
+              <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
+              <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
+            </div>
+          </div>
+          <!-- /.nav-tabs-custom -->
 
+ 
 
+        </section>
+        <!-- right col -->
+      </div>
+      <!-- /.row (main row) -->
 
-
-
-	    <!-- Calendar -->
-            <div class="box box-info ">
-                <div class="box-header with-border">
-                    <h3 class="box-title <?= (Yii::$app->language == 'ar') ? 'pull-right' : '' ?>"><i class="fa fa-calendar"></i> <?php echo Yii::t('app', 'Calendario por Plantel') ?></h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                    <!--The calendar -->
-	<?php
-	$JSEventClick = <<<EOF
-		function(event, jsEvent, view) {
-		    $('.fc-event').on('click', function (e) {
-			$('.fc-event').not(this).popover('hide');
-		    });
-		}
-EOF;
-	$eDetail = Yii::t('app', 'Event Detail');
-	$eType = Yii::t('app', 'Event Type');
-	$eStart = Yii::t('app', 'Start Time');
-	$eEnd = Yii::t('app', 'End Time');
-	$JsF = <<<EOF
-		function (event, element) {
-			var start_time = moment(event.start).format("DD-MM-YYYY, h:mm:ss a");
-		    	var end_time = moment(event.end).format("DD-MM-YYYY, h:mm:ss a");
-
-			element.clickover({
-		            title: event.title,
-		            placement: 'top',
-		            html: true,
-			    global_close: true,
-			    container: 'body',
-		            content: "<table class='table'><tr><th>{$eDetail} : </th><td>" + event.description + " </td></tr><tr><th> {$eType} : </th><td>" + event.event_type + "</td></tr><tr><th> {$eStart} : </t><td>" + start_time + "</td></tr><tr><th> {$eEnd} : </th><td>" + end_time + "</td></tr></table>"
-        		});
-               }
-EOF;
-	?>
-                <?= yii2fullcalendar\yii2fullcalendar::widget([
-				'options' => ['language' => 'es'],
-				'clientOptions' => [
-					'fixedWeekCount' => false,
-					'weekNumbers'=>true,
-					'editable' => true,
-					'eventLimit' => true,
-					'eventLimitText' => 'more Events',
-					'header' => [
-						'left' => 'prev,next today',
-						'center' => 'title',
-						'right' => 'month,agendaWeek,agendaDay'
-					],
-					'eventClick' => new \yii\web\JsExpression($JSEventClick),
-					'eventRender' => new \yii\web\JsExpression($JsF),
-					'contentHeight' => 380,
-					'timeFormat' => 'hh(:mm) A',
-				],
-			//	'ajaxEvents' => yii\helpers\Url::toRoute(['/dashboard/events/view-events'])
-			]);
-		    ?>
-		   <div class="row">
-			<ul class="legend">
-			    <li><span class="holiday"></span> <?php echo Yii::t('app', 'Eventos confirmados') ?></li>
-			    <li><span class="importantnotice"></span> <?php echo Yii::t('app', 'Eventos Pendientes') ?></li>
-			    <li><span class="meeting"></span> <?php echo Yii::t('app', 'Eventos Cancelados') ?></li>
-			    
-			</ul>
-		   </div>
-                </div><!-- /.box-body -->
-            </div><!-- /.box -->
-
-            <div class="box box-info ">
-                <div class="box-header with-border">
-                    <h3 class="box-title <?= (Yii::$app->language == 'ar') ? 'pull-right' : '' ?>"><i class="ion ion-university"></i> <?php echo Yii::t('app', 'Eventos para Hoy') ?></h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                    
-                </div><!-- /.box-body -->
-            </div><!-- /.box -->
-
-
-
-
-
-
-
-
-
-
-            </section>
-<!-- Main content -->
-
-</section>
-
-</div>
+    </section>
+    <!-- /.content -->

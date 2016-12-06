@@ -7,6 +7,8 @@ use kartik\datetime\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Events */
 /* @var $form yii\widgets\ActiveForm */
+
+$id_profesor = Yii::$app->user->identity->id_profesor;
 ?>
 <?php
 if(isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
@@ -16,9 +18,16 @@ if(isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
 if(isset($_REQUEST['event_id'])) {
 	echo '<div class="visible-xs-4 col-sm-3 col-lg-3 pull-right">';
 	if(isset($_GET['return_dashboard'])) {
+		if ($id_profesor == $model->id_profesor){
 		echo Html::a('<i class="fa fa-trash-o"></i> '.Yii::t('app', 'Remove'), ['events/event-delete', 'e_id' => $_REQUEST['event_id'], 'return_dashboard'=>1], ['class' => 'btn btn-danger btn-block', 'title' => Yii::t('app', 'Remove/Delete Event'), 'data' => ['confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post'],]);
+		}
 	} else {
+
+
+	   	if ($id_profesor == $model->id_profesor){
+	    
 		echo Html::a('<i class="fa fa-trash-o"></i> '.Yii::t('app', 'Remove'), ['events/event-delete', 'e_id' => $_REQUEST['event_id']], ['class' => 'btn btn-danger btn-block', 'title' => Yii::t('app', 'Remove/Delete Event'), 'data' => ['confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post'],]);
+		}
 	} 
 	echo '</div>';
 	
@@ -71,18 +80,28 @@ if(isset($_REQUEST['event_id'])) {
     </div>
 
     <div class="col-xs-12 col-sm-12 col-lg-12">
-    <?= $form->field($model, 'event_type')->dropDownList([1 => 'Holiday', 2 => 'Important Notice', 3 => 'Meeting', 4 => 'Messages'],['prompt'=> Yii::t('app', '--- Select Type ---')]); ?>
+    <?= $form->field($model, 'event_type')->dropDownList([1 => 'Escolar', 2 => 'Semiescolar'],['prompt'=> Yii::t('app', '--- Seleccionar ---')]); ?>
     </div>
 
     <div class="form-group col-xs-12 col-sm-6 col-lg-5 no-padding edusecArLangCss">
 	<div class="col-xs-6">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord  ? 'btn btn-success btn-block' : 'btn btn-info btn-block']) ?> 
+	   <?php
+
+	   	if ($id_profesor == $model->id_profesor){
+	    ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Agregar') : Yii::t('app', 'Modificar'), ['class' => $model->isNewRecord  ? 'btn btn-success btn-block' : 'btn btn-info btn-block']) ?> 
+        <?php
+    	}
+    	?>
 	</div>
 	<div class="col-xs-6">
-	<?php if(isset($_GET['return_dashboard'])) 
+	<?php 
+		if ($id_profesor == $model->id_profesor){
+		if(isset($_GET['return_dashboard'])) 
 		echo Html::a(Yii::t('app', 'Cancel'), ['/dashboard'], ['class' => 'btn btn-default btn-block']);
 	      else
 		echo Html::a(Yii::t('app', 'Cancel'), ['index'], ['class' => 'btn btn-default btn-block']);
+	    }
 	?>
 	</div>
     </div>
